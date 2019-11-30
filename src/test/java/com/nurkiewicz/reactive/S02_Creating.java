@@ -16,8 +16,7 @@ public class S02_Creating extends AbstractFuturesTest {
 	 */
 	@Test
 	public void completed() throws Exception {
-		final CompletableFuture<Integer> answer =
-				CompletableFuture.completedFuture(42);
+		final CompletableFuture<Integer> answer = CompletableFuture.completedFuture(42);
 
 		final int fortyTwo = answer.get();  //does not block
 	}
@@ -28,9 +27,7 @@ public class S02_Creating extends AbstractFuturesTest {
 	@Test
 	public void supplyAsync() throws Exception {
 		final CompletableFuture<String> java =
-				CompletableFuture.supplyAsync(() ->
-								client.mostRecentQuestionAbout("java")
-				);
+				CompletableFuture.supplyAsync(() -> client.mostRecentQuestionAbout("java"));
 		log.debug("Found: '{}'", java.get());
 	}
 

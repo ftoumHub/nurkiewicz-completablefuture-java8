@@ -22,8 +22,7 @@ public class S03_Map extends AbstractFuturesTest {
 				);
 
 		final Document document = java.get();       //blocks
-		final Element element = document.
-				select("a.question-hyperlink").get(0);
+		final Element element = document.select("a.question-hyperlink").get(0);
 		final String title = element.text();
 		final int length = title.length();
 		log.debug("Length: {}", length);

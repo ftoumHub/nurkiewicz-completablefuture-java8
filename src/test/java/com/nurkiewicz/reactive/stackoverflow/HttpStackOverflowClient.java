@@ -16,9 +16,10 @@ public class HttpStackOverflowClient implements StackOverflowClient {
 	@Override
 	public Document mostRecentQuestionsAbout(String tag) {
 		try {
-			return Jsoup.
-					connect("http://stackoverflow.com/questions/tagged/" + tag).
-					get();
+			return Jsoup.connect("http://stackoverflow.com/questions/tagged/" + tag)
+					.timeout(10000)
+					.validateTLSCertificates(false)
+					.get();
 		} catch (IOException e) {
 			throw Throwables.propagate(e);
 		}
