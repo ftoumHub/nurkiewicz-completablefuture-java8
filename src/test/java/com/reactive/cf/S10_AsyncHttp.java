@@ -1,11 +1,11 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import org.junit.AfterClass;
-import org.junit.Test;
+import com.reactive.util.AbstractFuturesTest;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class S10_AsyncHttp extends AbstractFuturesTest {
 
 	private static final AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 
-	@AfterClass
+	@AfterAll
 	public static void closeClient() {
 		asyncHttpClient.close();
 	}
@@ -35,10 +35,7 @@ public class S10_AsyncHttp extends AbstractFuturesTest {
 		TimeUnit.SECONDS.sleep(5);
 	}
 
-	public void loadTag(
-			String tag,
-			Consumer<String> onSuccess,
-			Consumer<Throwable> onError) throws IOException {
+	public void loadTag(String tag, Consumer<String> onSuccess, Consumer<Throwable> onError) throws IOException {
 		asyncHttpClient
 				.prepareGet("http://stackoverflow.com/questions/tagged/" + tag)
 				.execute(

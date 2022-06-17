@@ -1,7 +1,7 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import org.junit.Test;
+import com.reactive.util.AbstractFuturesTest;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +28,8 @@ public class S02_Creating extends AbstractFuturesTest {
 	public void supplyAsync() throws Exception {
 		final CompletableFuture<String> java =
 				CompletableFuture.supplyAsync(() -> client.mostRecentQuestionAbout("java"));
+		// Ici, il n'y a pas d'executor service
+		// Dans ForkJoinPool, c'est la méthode commonPool() qui est utilisé
 		log.debug("Found: '{}'", java.get());
 	}
 
@@ -37,10 +39,8 @@ public class S02_Creating extends AbstractFuturesTest {
 	@Test
 	public void supplyAsyncWithCustomExecutor() throws Exception {
 		final CompletableFuture<String> java =
-				CompletableFuture.supplyAsync(
-						() -> client.mostRecentQuestionAbout("java"),
-						executorService
-				);
+				CompletableFuture.supplyAsync(() -> client.mostRecentQuestionAbout("java"), execService);
+
 		log.debug("Found: '{}'", java.get());
 	}
 

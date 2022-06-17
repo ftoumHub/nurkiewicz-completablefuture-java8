@@ -1,4 +1,4 @@
-package com.nurkiewicz.reactive.stackoverflow;
+package com.reactive.stackoverflow;
 
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class InjectErrorsWrapper implements StackOverflowClient {
 	private void throwIfBlackListed(String tag) {
 		if (blackList.contains(tag)) {
 			ArtificialSleepWrapper.artificialSleep(400);
-			log.warn("About to throw artifical exception due to: {}", tag);
+			log.warn("About to throw artificial exception due to: {}", tag);
 			throw new IllegalArgumentException("Unsupported " + tag);
 		}
 	}

@@ -1,8 +1,8 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import com.nurkiewicz.reactive.util.Futures;
-import org.junit.Test;
+import com.reactive.util.AbstractFuturesTest;
+import com.reactive.util.Futures;
+import org.junit.jupiter.api.Test;
 import rx.Observable;
 
 import java.util.List;

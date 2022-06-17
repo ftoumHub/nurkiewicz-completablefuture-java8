@@ -1,11 +1,10 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import com.nurkiewicz.reactive.util.InterruptibleTask;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import com.reactive.util.AbstractFuturesTest;
+import com.reactive.util.InterruptibleTask;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.*;
 
@@ -13,12 +12,12 @@ public class S11_Cancelling extends AbstractFuturesTest {
 
 	private static ExecutorService myThreadPool;
 
-	@BeforeClass
+	@BeforeAll
 	public static void init() {
 		myThreadPool = Executors.newFixedThreadPool(10);
 	}
 
-	@AfterClass
+	@AfterAll
 	public static void close() {
 		myThreadPool.shutdownNow();
 	}
@@ -37,7 +36,7 @@ public class S11_Cancelling extends AbstractFuturesTest {
 		task.blockUntilInterrupted();
 	}
 
-	@Ignore("Fails with CompletableFuture")
+	//@Ignore("Fails with CompletableFuture")
 	@Test
 	public void shouldCancelCompletableFuture() throws InterruptedException, TimeoutException {
 		//given

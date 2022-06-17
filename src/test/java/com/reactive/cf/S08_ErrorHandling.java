@@ -1,7 +1,7 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import org.junit.Test;
+import com.reactive.util.AbstractFuturesTest;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,8 +47,7 @@ public class S08_ErrorHandling extends AbstractFuturesTest {
 		final CompletableFuture<String> questions = questions("php");
 
 		//when
-		final CompletableFuture<String> recovered = questions
-				.exceptionally(throwable -> "Sorry, try again later");
+		final CompletableFuture<String> recovered = questions.exceptionally(throwable -> "Sorry, try again later");
 
 		//then
 		log.debug("Done: {}", recovered.get());

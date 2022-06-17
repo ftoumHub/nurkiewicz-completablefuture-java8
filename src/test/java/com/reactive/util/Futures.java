@@ -1,4 +1,4 @@
-package com.nurkiewicz.reactive.util;
+package com.reactive.util;
 
 import rx.Observable;
 

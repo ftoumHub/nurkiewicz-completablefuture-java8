@@ -1,12 +1,17 @@
-package com.nurkiewicz.reactive.stackoverflow;
+package com.reactive.stackoverflow;
 
 import com.google.common.base.Throwables;
+import com.reactive.util.AbstractFuturesTest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class HttpStackOverflowClient implements StackOverflowClient {
+
+	private static final Logger log = LoggerFactory.getLogger(HttpStackOverflowClient.class);
 
 	@Override
 	public String mostRecentQuestionAbout(String tag) {
@@ -15,6 +20,7 @@ public class HttpStackOverflowClient implements StackOverflowClient {
 
 	@Override
 	public Document mostRecentQuestionsAbout(String tag) {
+		log.debug("==> mostRecentQuestionsAbout : {}", tag);
 		try {
 			return Jsoup.connect("http://stackoverflow.com/questions/tagged/" + tag)
 					.timeout(10000)

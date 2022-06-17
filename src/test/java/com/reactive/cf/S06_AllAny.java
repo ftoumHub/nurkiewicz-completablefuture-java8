@@ -1,7 +1,7 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import org.junit.Test;
+import com.reactive.util.AbstractFuturesTest;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,10 +19,7 @@ public class S06_AllAny extends AbstractFuturesTest {
 		final CompletableFuture<String> clojure = questions("clojure");
 		final CompletableFuture<String> groovy = questions("groovy");
 
-		final CompletableFuture<Void> allCompleted =
-				CompletableFuture.allOf(
-						java, scala, clojure, groovy
-				);
+		final CompletableFuture<Void> allCompleted = CompletableFuture.allOf(java, scala, clojure, groovy);
 
 		allCompleted.thenRun(() -> {
 			try {
@@ -43,10 +40,7 @@ public class S06_AllAny extends AbstractFuturesTest {
 		final CompletableFuture<String> clojure = questions("clojure");
 		final CompletableFuture<String> groovy = questions("groovy");
 
-		final CompletableFuture<Object> firstCompleted =
-				CompletableFuture.anyOf(
-						java, scala, clojure, groovy
-				);
+		final CompletableFuture<Object> firstCompleted = CompletableFuture.anyOf(java, scala, clojure, groovy);
 
 		firstCompleted.thenAccept((Object result) -> {
 			log.debug("First: {}", result);

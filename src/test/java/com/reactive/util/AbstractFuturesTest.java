@@ -1,24 +1,23 @@
-package com.nurkiewicz.reactive.util;
+package com.reactive.util;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.nurkiewicz.reactive.stackoverflow.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.TestName;
+import com.reactive.stackoverflow.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.*;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class AbstractFuturesTest {
 
 	private static final Logger log = LoggerFactory.getLogger(AbstractFuturesTest.class);
 
-	protected final ExecutorService executorService = Executors.newFixedThreadPool(10, threadFactory("Custom"));
-
-	@Rule
-	public TestName testName = new TestName();
+	protected final ExecutorService execService = Executors.newFixedThreadPool(10, threadFactory("Custom"));
 
 	protected ThreadFactory threadFactory(String nameFormat) {
 		return new ThreadFactoryBuilder().setNameFormat(nameFormat + "-%d").build();
@@ -34,21 +33,19 @@ public class AbstractFuturesTest {
 			)
 	);
 
-	@Before
-	public void logTestStart() {
-		log.debug("Starting: {}", testName.getMethodName());
-	}
-
-	@After
+	@AfterEach
 	public void stopPool() throws InterruptedException {
-		executorService.shutdown();
-		executorService.awaitTermination(10, TimeUnit.SECONDS);
+		execService.shutdown();
+		execService.awaitTermination(10, SECONDS);
 	}
 
 	protected CompletableFuture<String> questions(String tag) {
 		return CompletableFuture.supplyAsync(() ->
-				client.mostRecentQuestionAbout(tag),
-				executorService);
+				client.mostRecentQuestionAbout(tag), execService);
+	}
+
+	protected io.vavr.concurrent.Future<String> questionsVavr(String tag) {
+		return io.vavr.concurrent.Future.of(execService, () -> client.mostRecentQuestionAbout(tag));
 	}
 
 }

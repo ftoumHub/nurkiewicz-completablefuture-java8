@@ -1,7 +1,7 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import org.junit.Test;
+import com.reactive.util.AbstractFuturesTest;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,12 +13,9 @@ public class S07_AsyncCallback extends AbstractFuturesTest {
 
 	private static final Logger log = LoggerFactory.getLogger(S07_AsyncCallback.class);
 
-	protected final ExecutorService poolAlpha =
-			Executors.newFixedThreadPool(10, threadFactory("Alpha"));
-	protected final ExecutorService poolBeta =
-			Executors.newFixedThreadPool(10, threadFactory("Beta"));
-	protected final ExecutorService poolGamma =
-			Executors.newFixedThreadPool(10, threadFactory("Gamma"));
+	protected final ExecutorService poolAlpha = Executors.newFixedThreadPool(10, threadFactory("Alpha"));
+	protected final ExecutorService poolBeta = Executors.newFixedThreadPool(10, threadFactory("Beta"));
+	protected final ExecutorService poolGamma = Executors.newFixedThreadPool(10, threadFactory("Gamma"));
 
 	@Test
 	public void whichThreadInvokesCallbacks() throws Exception {

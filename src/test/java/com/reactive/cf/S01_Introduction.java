@@ -1,8 +1,8 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
-import com.nurkiewicz.reactive.stackoverflow.LoadFromStackOverflowTask;
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
-import org.junit.Test;
+import com.reactive.stackoverflow.LoadFromStackOverflowTask;
+import com.reactive.util.AbstractFuturesTest;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,16 +18,16 @@ public class S01_Introduction extends AbstractFuturesTest {
 	 */
 	@Test
 	public void blockingCall() throws Exception {
-		final String title = client.mostRecentQuestionAbout("java");
+		String title = client.mostRecentQuestionAbout("java");
 		log.debug("Most recent Java question: '{}'", title);
 	}
 
 	@Test
 	public void executorService() throws Exception {
 		final Callable<String> task = () -> client.mostRecentQuestionAbout("java");
-		final Future<String> javaQuestionFuture = executorService.submit(task);
+		final Future<String> javaQuestionFuture = execService.submit(task);
 		//...
-		final String javaQuestion = javaQuestionFuture.get();
+		String javaQuestion = javaQuestionFuture.get();
 		log.debug("Found: '{}'", javaQuestion);
 	}
 
@@ -44,7 +44,7 @@ public class S01_Introduction extends AbstractFuturesTest {
 
 	private Future<String> findQuestionsAbout(String tag) {
 		final Callable<String> task = new LoadFromStackOverflowTask(client, tag);
-		return executorService.submit(task);
+		return execService.submit(task);
 	}
 
 }

@@ -1,7 +1,7 @@
-package com.nurkiewicz.reactive;
+package com.reactive.cf;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.nurkiewicz.reactive.util.AbstractFuturesTest;
+import com.reactive.util.AbstractFuturesTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,12 +28,12 @@ public class S09_Promises extends AbstractFuturesTest {
 		return new CompletableFuture<>();
 	}
 
-	public static <T> CompletableFuture<T> timeoutAfter(
-			Duration duration) {
+	public static <T> CompletableFuture<T> timeoutAfter(Duration duration) {
 		final CompletableFuture<T> promise = new CompletableFuture<>();
 		pool.schedule(
 				() -> promise.completeExceptionally(new TimeoutException()),
-				duration.toMillis(), TimeUnit.MILLISECONDS);
+				duration.toMillis(), TimeUnit.MILLISECONDS
+		);
 		return promise;
 	}
 

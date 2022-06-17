@@ -1,4 +1,4 @@
-package com.nurkiewicz.reactive.stackoverflow;
+package com.reactive.stackoverflow;
 
 import com.google.common.base.Throwables;
 import org.apache.commons.io.IOUtils;
