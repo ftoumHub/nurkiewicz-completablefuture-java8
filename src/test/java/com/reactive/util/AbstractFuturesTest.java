@@ -52,8 +52,8 @@ public class AbstractFuturesTest {
 		return supplyAsync(() -> stackOverflowClient.mostRecentQuestionAbout(tag), execService);
 	}
 
-	/**protected Future<String> questionsVavr(String tag) {
+	protected Future<String> questionsV(String tag) {
 		return Future.of(execService, () -> stackOverflowClient.mostRecentQuestionAbout(tag));
-	}*/
+	}
 
 }

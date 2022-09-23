@@ -6,9 +6,6 @@ C'est une classe qui permet d'écrire des programmes d'une façon extremement di
 
 Il n'y aura pas de slide pendant cette présentation!
 
-Les points à retenir :
-
-
 
 01 - Intro
 
@@ -16,7 +13,7 @@ Appel d'un traitement potentiellement bloquant dans le thread principal = mauvai
 
 Dans un monde réactif, on a pas le droit de bloquer le thread principal!!
 
-On décharge les traitements potentiellement bloquants dans un thread background (en utilisant un executor serice)
+On décharge les traitements potentiellement bloquants dans un thread background (en utilisant un executor service)
 et on récupère une Future.
 
 Pb, on ne peut interagir avec une Future qu'avec la méthode get(). La composition de plusieurs futures est compliqué.
@@ -64,7 +61,7 @@ Avec **thenApply**, le contenu du traitement exécuté est encapsulé dans une f
 Problème, comment faire pour chainer des traitements retournant CompletableFuture
 => Problème de double wrapping
 
-On va utiliser **thenCompose**, qui va désencapsuler
+On va utiliser **thenCompose**, qui va désencapsuler 
 
 
 05 - Retour au point de départ
@@ -92,6 +89,8 @@ Dans un monde réactif, comme on ne va jamais appeler get() explicitement, cela 
 initiale va être entièrement avalé et on n'en verra pas de trace.
 
 Heureusement, la classe CompletableFuture nous propose la méthode **handle** qui donne accès à 2 valeurs mutuellement
-exclusive qui vont être le résultat de l'opératio si celle-ci s'est déroulé avec succès ou bien l'exception.
+exclusive qui vont être :
+- le résultat de l'opération si celle-ci s'est déroulé avec succès 
+- ou bien l'exception.
 Cela permet à minima de fournir une valeur fallback dans le cas ou une exception survient.
 Cette méthode permet d'avoir accès à une exception qui a pu être levée depuis une opération antérieur (upstream)

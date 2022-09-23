@@ -30,6 +30,14 @@ public class S04_FlatMap_thenCompose extends AbstractFuturesTest {
                         findMostInterestingQuestion(doc));
     }
 
+    private CompletableFuture<Document> javaQuestions() {
+        return CompletableFuture.supplyAsync(() ->
+                stackOverflowClient.mostRecentQuestionsAbout("java"), execService);
+    }
+
+    private CompletableFuture<Question> findMostInterestingQuestion(Document document) {
+        return CompletableFuture.completedFuture(new Question());
+    }
 
     /**
      * Mauvaise pratique!
@@ -109,17 +117,9 @@ public class S04_FlatMap_thenCompose extends AbstractFuturesTest {
     }*/
 
 
-    private CompletableFuture<Document> javaQuestions() {
-        return CompletableFuture.supplyAsync(() ->
-                stackOverflowClient.mostRecentQuestionsAbout("java"), execService);
-    }
 
     private Future<Document> javaQuestionsVavr() {
         return Future.of(execService, () -> stackOverflowClient.mostRecentQuestionsAbout("java"));
-    }
-
-    private CompletableFuture<Question> findMostInterestingQuestion(Document document) {
-        return CompletableFuture.completedFuture(new Question());
     }
 
     private Future<Question> findMostInterestingQuestionVavr(Document document) {

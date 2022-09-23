@@ -47,21 +47,6 @@ public class S03_Map_thenApply extends AbstractFuturesTest {
 
 
 
-    /**@Test
-    public void vavrOldSchool() {
-        final Future<Document> java = Future(execService, () -> stackOverflowClient.mostRecentQuestionsAbout("java"));
-
-        final Document document = java.get();       //blocks
-        final Element element = document.select("a.question-hyperlink").get(0);
-        final String title = element.text();
-        final int length = title.length();
-
-        log.debug("Length: {}", length);
-    }*/
-
-
-
-
     /**
      *
      * Callback hell, pas possible d'utiliser la composition.
@@ -85,9 +70,7 @@ public class S03_Map_thenApply extends AbstractFuturesTest {
 
 
     /**
-     *
-     * Contrairement à thenAccept, thenApply va permettre
-     * d'appliquer une fonction et de retourner une valeur.
+     * thenApply va permettre d'appliquer une fonction et de retourner une valeur.
      */
     @Test
     public void thenApply() throws Exception {
@@ -99,8 +82,7 @@ public class S03_Map_thenApply extends AbstractFuturesTest {
 
         // Là on commence à rentrer dans le monde réactif!!
         final CompletableFuture<Element> titleElement =
-                java.thenApply((Document doc) ->
-                        doc.select("a.question-hyperlink").get(0)); //
+                java.thenApply((Document doc) -> doc.select("a.question-hyperlink").get(0)); //
 
         final CompletableFuture<String> titleText =
                 titleElement.thenApply(Element::text);
@@ -130,20 +112,5 @@ public class S03_Map_thenApply extends AbstractFuturesTest {
 
         log.debug("Length: {}", length.get()); // Le code n'est plus bloquant jusqu'à ce qu'on appel get()
     }
-
-
-
-
-    /**@Test
-    public void vavrMapChained() {
-        final Future<Integer> length =
-                Future.of(execService, () -> stackOverflowClient.mostRecentQuestionsAbout("java"))
-                        .map(doc -> doc.select("a.question-hyperlink").get(0))
-                        .map(Element::text)
-                        .map(String::length);
-
-        log.debug("Length: {}", length.get());
-    }*/
-
 }
 

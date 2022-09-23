@@ -27,8 +27,8 @@ public class S01_Introduction extends AbstractFuturesTest {
 	 * nombre d'impondérables qui peuvent rendre ce code dysfonctionnel.
 	 * (Ex: stackoverflow est 'down', bug de parsing HTML...)
 	 *
-	 * En cas d'erreur réseau, le code peut tourner sans s'arrêter et donc en bloquant le thread principal
-	 * de l'application.
+	 * En cas d'erreur réseau, le code peut tourner sans s'arrêter et donc bloquer
+	 * le thread principal de l'application.
 	 */
 	@Test
 	public void callingTaskInMainThread() {

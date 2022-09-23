@@ -33,4 +33,25 @@ public class ContinuousCompletableFuture<T> extends CompletableFuture<T> {
         return new ContinuousCompletableFuture<>(
                 baseFuture.thenAcceptAsync(t -> action.accept(t, getElapsedTime())), creationTime);
     }
+
+
+    /**@Test public void continuousSupplyAsync() {
+    log.info("Starting stackOverflow request : \"java\"");
+
+    ContinuousCompletableFuture<String> ccf =
+    ContinuousCompletableFuture.supplyAsync(() -> stackOverflowClient.mostRecentQuestionAbout("java"));
+
+    ccf.thenApply(s -> Tuple.of(s, ccf.getElapsedTime()))
+    .whenComplete((t, e) -> {
+    if (nonNull(e)) {
+    log.error("erreur :", e);
+    } else {
+    log.info("Elapsed {} ms to receive message \"{}\"", t._2, t._1);
+    }
+    });
+
+    log.debug("Thread courant : {}", currentThread().getName());
+
+    await(2000, MILLIS); // On attend dans le thread main
+    }*/
 }

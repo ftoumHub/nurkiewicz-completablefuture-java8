@@ -14,7 +14,7 @@ public class Actions {
     private Actions() {
     }
 
-    public static boolean unlockTheDoor() {
+    public static boolean openTheDoor() {
         log.info("Forcing the door...");
         delay(2000);
         log.info("Door unlocked!");
@@ -37,7 +37,7 @@ public class Actions {
         return lock;
     }
 
-    public static Loot openSafeLock(final String safetyBoxNumber, final int pin) {
+    public static Loot openSafetyBox(final String safetyBoxNumber, final int pin) {
         log.info("Opening the safe lock {} using the pin {}", safetyBoxNumber, pin);
         delay();
         log.info("Safety Box opened!");

@@ -23,19 +23,24 @@ public class S08_ErrorHandling extends AbstractFuturesTest {
 
 
     /**
+     *
      * Ici une exception va être levée :
      * {@link com.reactive.stackoverflow.InjectErrorsWrapper#throwIfBlackListed(String)}
      */
     @Test
     public void exceptionsShortCircuitFuture() throws Exception {
-        final CompletableFuture<String> questions = questions("php")
-                .thenApply(r -> {
-                    log.debug("Success!");
-                    return r;
-                });
-        // on doit appeler explicitement get() pour avoir une exception dans le thread client, on est plus réactif.
+
+        // questions("php") va lever une exception de type IllegalArgumentException.
+        final CompletableFuture<String> questions = questions("php");
+
+        questions.thenApply(r -> {
+            log.debug("Success!");
+            return r;
+        });
         questions.get();
     }
+
+
 
 
     @Test
@@ -45,9 +50,9 @@ public class S08_ErrorHandling extends AbstractFuturesTest {
 
         //when
         final CompletableFuture<String> recovered = questions
-                .handle((result, throwable) -> { // fonctionne comme thenApply mais en donnant accès à l'exception
+                .handle((result, throwable) -> {
                     if (throwable != null) {
-                        // En cas d'exception, on peut quand même retourner une valeur
+                        log.debug("Exception thrown!");
                         return "No PHP today due to: " + throwable;
                     } else {
                         return result.toUpperCase();
