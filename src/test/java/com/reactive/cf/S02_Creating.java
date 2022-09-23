@@ -6,43 +6,123 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 
+import static com.reactive.util.Await.await;
+import static java.lang.Thread.currentThread;
+import static java.time.temporal.ChronoUnit.MILLIS;
+import static java.util.Objects.nonNull;
+
+/**
+ * Grâce à la classe CompletableFuture et aux lambdas
+ * on peut désormais écrire du code réactif non bloquant.
+ *
+ * Mais surtout on va pouvoir le faire avec du code élégant en évitant les callbacks.
+ */
 public class S02_Creating extends AbstractFuturesTest {
 
-	private static final Logger log = LoggerFactory.getLogger(S02_Creating.class);
+    private static final Logger log = LoggerFactory.getLogger(S02_Creating.class);
 
-	/**
-	 * Already completed future
-	 */
-	@Test
-	public void completed() throws Exception {
-		final CompletableFuture<Integer> answer = CompletableFuture.completedFuture(42);
 
-		final int fortyTwo = answer.get();  //does not block
-	}
+    @Test
+    public void firstExample() throws Exception {
 
-	/**
-	 * Built-in thread pool
-	 */
-	@Test
-	public void supplyAsync() throws Exception {
-		final CompletableFuture<String> java =
-				CompletableFuture.supplyAsync(() -> client.mostRecentQuestionAbout("java"));
-		// Ici, il n'y a pas d'executor service
-		// Dans ForkJoinPool, c'est la méthode commonPool() qui est utilisé
-		log.debug("Found: '{}'", java.get());
-	}
+        final CompletableFuture<Integer> answer = CompletableFuture.completedFuture(42);
 
-	/**
-	 * Custom thread pool, equivalent (*) to submit()
-	 */
-	@Test
-	public void supplyAsyncWithCustomExecutor() throws Exception {
-		final CompletableFuture<String> java =
-				CompletableFuture.supplyAsync(() -> client.mostRecentQuestionAbout("java"), execService);
+        final int fortyTwo = answer.get(); // does not block
+        log.debug("Should print 42 immediately: '{}'", fortyTwo);
+    }
 
-		log.debug("Found: '{}'", java.get());
-	}
+
+
+
+
+    /**
+     * Attention, quelque chose manque dans ce code!!!
+     * <p>
+     * Ici, il n'y a pas d'executor service, le code est exécuté dans un pool de thread commun.
+     * Dans cf{@link ForkJoinPool#commonPool()}
+     * <p>
+     * Heureusement, on a aussi une version qui prend en paramètre un executorService {@link #supplyAsyncWithCustomExecutor}
+     */
+    @Test
+    public void supplyAsync() throws Exception {
+        final CompletableFuture<String> java =
+                CompletableFuture.supplyAsync(() ->
+                        stackOverflowClient.mostRecentQuestionAbout("java")
+                );
+        log.debug("Found '{}'", java.get()); // ici on peut bloquer pour attendre le résultat
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Couramment, on va créer une CompletableFuture à partir d'une méthode factory comme supplyAsync
+     */
+    @Test
+    public void supplyAsyncWithWhenComplete() {
+        CompletableFuture.supplyAsync(() -> stackOverflowClient.mostRecentQuestionAbout("java"))
+                .whenComplete((s, e) -> {
+                    if (nonNull(e)) log.error("erreur :", e);
+                    else log.debug("Found: '{}'", s);
+                });
+
+        log.debug("Thread courant : {}", currentThread().getName());
+
+        await(4000, MILLIS); // On attend dans le thread main
+    }
+
+    /**@Test public void continuousSupplyAsync() {
+    log.info("Starting stackOverflow request : \"java\"");
+
+    ContinuousCompletableFuture<String> ccf =
+    ContinuousCompletableFuture.supplyAsync(() -> stackOverflowClient.mostRecentQuestionAbout("java"));
+
+    ccf.thenApply(s -> Tuple.of(s, ccf.getElapsedTime()))
+    .whenComplete((t, e) -> {
+    if (nonNull(e)) {
+    log.error("erreur :", e);
+    } else {
+    log.info("Elapsed {} ms to receive message \"{}\"", t._2, t._1);
+    }
+    });
+
+    log.debug("Thread courant : {}", currentThread().getName());
+
+    await(2000, MILLIS); // On attend dans le thread main
+    }*/
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Avec Custom thread pool
+     */
+    @Test
+    public void supplyAsyncWithCustomExecutor() throws Exception {
+        final CompletableFuture<String> java =
+                CompletableFuture.supplyAsync(
+                        () -> stackOverflowClient.mostRecentQuestionAbout("java"),
+                        execService
+                );
+        log.debug("Found: '{}'", java.get());
+    }
 
 }
 

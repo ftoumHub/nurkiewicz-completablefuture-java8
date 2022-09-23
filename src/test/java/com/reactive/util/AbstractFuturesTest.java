@@ -2,28 +2,37 @@ package com.reactive.util;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.reactive.stackoverflow.*;
-import org.junit.jupiter.api.AfterAll;
+import io.vavr.concurrent.Future;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
+import static java.util.concurrent.CompletableFuture.supplyAsync;
 import static java.util.concurrent.TimeUnit.SECONDS;
+
 
 public class AbstractFuturesTest {
 
-	private static final Logger log = LoggerFactory.getLogger(AbstractFuturesTest.class);
+	/**
+	 * <p>Un <b>ExecutorService</b> encapsule un pool de threads et une queue de tâches à exécuter.</p>
+	 *
+	 * Tous les threads du pool sont toujours en cours d'exécution. Le service vérifie si
+	 * une tâche est à traiter dans la queue et si c'est le cas il la retire et l'exécute.
+	 * Une fois la tâche exécutée, le thread attend de nouveau que le service lui assigne
+	 * une nouvelle tâche de la queue.
+	 */
+	protected final ExecutorService execService =
+			Executors.newFixedThreadPool(10, threadFactory("Custom"));
 
-	protected final ExecutorService execService = Executors.newFixedThreadPool(10, threadFactory("Custom"));
 
 	protected ThreadFactory threadFactory(String nameFormat) {
 		return new ThreadFactoryBuilder().setNameFormat(nameFormat + "-%d").build();
 	}
 
-	protected final StackOverflowClient client = new FallbackStubClient(
+	protected final StackOverflowClient stackOverflowClient = new FallbackStubClient(
 			new InjectErrorsWrapper(
 					new LoggingWrapper(
 							new ArtificialSleepWrapper(
@@ -40,12 +49,11 @@ public class AbstractFuturesTest {
 	}
 
 	protected CompletableFuture<String> questions(String tag) {
-		return CompletableFuture.supplyAsync(() ->
-				client.mostRecentQuestionAbout(tag), execService);
+		return supplyAsync(() -> stackOverflowClient.mostRecentQuestionAbout(tag), execService);
 	}
 
-	protected io.vavr.concurrent.Future<String> questionsVavr(String tag) {
-		return io.vavr.concurrent.Future.of(execService, () -> client.mostRecentQuestionAbout(tag));
-	}
+	/**protected Future<String> questionsVavr(String tag) {
+		return Future.of(execService, () -> stackOverflowClient.mostRecentQuestionAbout(tag));
+	}*/
 
 }

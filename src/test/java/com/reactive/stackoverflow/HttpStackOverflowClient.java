@@ -20,7 +20,6 @@ public class HttpStackOverflowClient implements StackOverflowClient {
 
 	@Override
 	public Document mostRecentQuestionsAbout(String tag) {
-		log.debug("==> mostRecentQuestionsAbout : {}", tag);
 		try {
 			return Jsoup.connect("http://stackoverflow.com/questions/tagged/" + tag)
 					.timeout(10000)

@@ -1,4 +1,4 @@
-package com.reactive.cf;
+package com.maif.futures;
 
 /**
  * https://github.com/webcompere/completable-future-retry

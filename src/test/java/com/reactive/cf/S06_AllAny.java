@@ -13,7 +13,7 @@ public class S06_AllAny extends AbstractFuturesTest {
 	private static final Logger log = LoggerFactory.getLogger(S06_AllAny.class);
 
 	@Test
-	public void allOf() throws Exception {
+	public void allOf() {
 		final CompletableFuture<String> java = questions("java");
 		final CompletableFuture<String> scala = questions("scala");
 		final CompletableFuture<String> clojure = questions("clojure");
@@ -34,7 +34,7 @@ public class S06_AllAny extends AbstractFuturesTest {
 	}
 
 	@Test
-	public void anyOf() throws Exception {
+	public void anyOf() {
 		final CompletableFuture<String> java = questions("java");
 		final CompletableFuture<String> scala = questions("scala");
 		final CompletableFuture<String> clojure = questions("clojure");
@@ -42,9 +42,7 @@ public class S06_AllAny extends AbstractFuturesTest {
 
 		final CompletableFuture<Object> firstCompleted = CompletableFuture.anyOf(java, scala, clojure, groovy);
 
-		firstCompleted.thenAccept((Object result) -> {
-			log.debug("First: {}", result);
-		});
+		firstCompleted.thenAccept((Object result) -> log.debug("First: {}", result));
 	}
 
 }

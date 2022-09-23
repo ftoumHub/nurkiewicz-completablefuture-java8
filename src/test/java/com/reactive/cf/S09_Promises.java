@@ -12,6 +12,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+/**
+ * On peut créer ses propres factory!!!
+ *
+ *
+ */
 public class S09_Promises extends AbstractFuturesTest {
 
 	private static final Logger log = LoggerFactory.getLogger(S09_Promises.class);
@@ -37,5 +42,9 @@ public class S09_Promises extends AbstractFuturesTest {
 		return promise;
 	}
 
+	public static void main(String[] args) {
+		// A quoi ça peut bien servir??
+		final CompletableFuture<Object> future = timeoutAfter(Duration.ofSeconds(2));
+	}
 }
 

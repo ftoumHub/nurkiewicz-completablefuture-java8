@@ -5,6 +5,8 @@ import rx.Observable;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import static java.util.Objects.nonNull;
+
 public class Futures {
 
 	public static <T> CompletableFuture<T> fromSingleObservable(Observable<T> observable) {
@@ -28,7 +30,7 @@ public class Futures {
 	public static <T> Observable<T> toObservable(CompletableFuture<T> future) {
 		return Observable.create(subscriber ->
 				future.whenComplete((result, error) -> {
-					if (error != null) {
+					if (nonNull(error)) {
 						subscriber.onError(error);
 					} else {
 						subscriber.onNext(result);
