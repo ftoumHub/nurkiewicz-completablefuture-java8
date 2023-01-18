@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 import static io.vavr.API.Future;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
@@ -18,18 +19,14 @@ import static java.util.concurrent.CompletableFuture.supplyAsync;
  * Aux méthodes de la classe {@link CompletableFuture}
  *
  * Avec java 8 l'opération map s'appelle thenApply.
- * vavr utilise bien le terme "map".
+ * Vavr utilise bien le terme "map".
  */
 public class S03_Map_thenApply extends AbstractFuturesTest {
 
     private static final Logger log = LoggerFactory.getLogger(S03_Map_thenApply.class);
 
-
-    /**
-     * A l'ancienne!
-     */
     @Test
-    public void oldSchool() throws Exception {
+    public void oldSchoolWay() throws Exception {
         final CompletableFuture<Document> java = // Ici on a une future de Document!
                 supplyAsync(() ->
                         stackOverflowClient.mostRecentQuestionsAbout("java"),
@@ -45,12 +42,10 @@ public class S03_Map_thenApply extends AbstractFuturesTest {
     }
 
 
-
-
     /**
      *
      * Callback hell, pas possible d'utiliser la composition.
-     * Ca marche mais on peut faire mieux : cf {@link #thenApply()}
+     * Ça marche, mais on peut faire mieux : cf {@link #thenApply()}
      */
     @Test
     public void callbacksCallbacksEverywhere() {
@@ -61,12 +56,6 @@ public class S03_Map_thenApply extends AbstractFuturesTest {
         java.thenAccept((Document document) ->
                 log.debug("Downloaded: {}", document));
     }
-
-
-
-
-
-
 
 
     /**
@@ -96,9 +85,8 @@ public class S03_Map_thenApply extends AbstractFuturesTest {
 
 
 	/**
-     *
-	 * thenApply va donc permettre de chainer des traitements,
-	 * comme si on écrivait du code java "procédurale"
+	 * {@link CompletableFuture#thenApply(Function)} va donc permettre de chainer des traitements,
+	 * comme si on écrivait du code java "procédurale".
 	 */
     @Test
     public void thenApplyChained() throws Exception {

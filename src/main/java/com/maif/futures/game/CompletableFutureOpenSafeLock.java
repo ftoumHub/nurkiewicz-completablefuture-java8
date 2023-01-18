@@ -14,6 +14,9 @@ import static com.maif.futures.game.Actions.*;
 import static java.util.Objects.isNull;
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
+/**
+ * cf : https://thepracticaldeveloper.com/differences-between-completablefuture-future-and-streams/
+ */
 public class CompletableFutureOpenSafeLock {
 
     private static final Logger log = LoggerFactory.getLogger(CompletableFutureOpenSafeLock.class);
@@ -22,7 +25,7 @@ public class CompletableFutureOpenSafeLock {
             Executors.newFixedThreadPool(10, threadFactory("Custom"));
 
 
-    private static final ThreadFactory threadFactory(String nameFormat) {
+    private static ThreadFactory threadFactory(String nameFormat) {
         return new ThreadFactoryBuilder().setNameFormat(nameFormat + "-%d").build();
     }
 
@@ -39,12 +42,12 @@ public class CompletableFutureOpenSafeLock {
             return Loot.BAD;
         };
 
-        return supplyAsync(() -> openTheDoor(), ex) // Open the door
+        return supplyAsync(Actions::openTheDoor, ex) // Open the door
                 .thenCompose(doorOpened ->
                         supplyAsync(() -> figureOutSafetyBoxNumber(victim), ex) // Get the box Number
                                 .thenCombineAsync(
                                         supplyAsync(() -> hackSecretPin(victim), ex), // Get the PIN
-                                        (safetyBoxNumber, pin) -> openSafetyBox(safetyBoxNumber, pin), ex) // Open the safety box
+                                        Actions::openSafetyBox, ex) // Open the safety box
                                 .exceptionally(runRunRun))
                 .thenApply(getTheLoot);
     }

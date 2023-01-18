@@ -1,7 +1,7 @@
 Cette présentation à pour but de présenter non pas un langage ou une librairie mais bien 
 une classe unique provenant de la version 8 de Java. Il s'agit de la classe CompletableFuture qui est une implémentation
 de l'interface Future qui existe en Java depuis plusieurs versions.
-C'est une classe qui permet d'écrire des programmes d'une façon extremement différentes de ce qu'on peut être amené 
+C'est une classe qui permet d'écrire des programmes d'une façon extrêmement différente de ce qu'on peut être amené 
 à rencontrer, il devient donc essentiel de comprendre les fonctionnalités qu'elle propose.
 
 Il n'y aura pas de slide pendant cette présentation!
@@ -16,7 +16,7 @@ Dans un monde réactif, on a pas le droit de bloquer le thread principal!!
 On décharge les traitements potentiellement bloquants dans un thread background (en utilisant un executor service)
 et on récupère une Future.
 
-Pb, on ne peut interagir avec une Future qu'avec la méthode get(). La composition de plusieurs futures est compliqué.
+Pb, on ne peut interagir avec une Future qu'avec la méthode get(). La composition de plusieurs futures est compliquée.
 
 C'est à cause de ces limitations qu'est apparu la classe **CompletableFuture**.
 Elle va entre autre permettre d'enregistrer des callbacks (un peu comme les promesses en javascript).

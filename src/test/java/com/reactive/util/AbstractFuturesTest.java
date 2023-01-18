@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.reactive.stackoverflow.*;
 import io.vavr.concurrent.Future;
 import org.junit.jupiter.api.AfterEach;
+import reactor.core.publisher.Mono;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -54,6 +55,10 @@ public class AbstractFuturesTest {
 
 	protected Future<String> questionsV(String tag) {
 		return Future.of(execService, () -> stackOverflowClient.mostRecentQuestionAbout(tag));
+	}
+
+	protected Mono<String> questionR(String tag) {
+		return Mono.fromCompletionStage(questions(tag));
 	}
 
 }

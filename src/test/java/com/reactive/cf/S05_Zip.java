@@ -23,11 +23,11 @@ public class S05_Zip extends AbstractFuturesTest {
         final CompletableFuture<String> java = questions("java");
         final CompletableFuture<String> scala = questions("scala");
 
-        java.thenCombine(scala,
+        final CompletableFuture<Integer> both = java.thenCombine(scala,
                 (javaTitle, scalaTitle) -> javaTitle.length() + scalaTitle.length()
         );
 
-        //both.thenAccept(length -> log.debug("Total length: {}", length));
+        both.thenAccept(length -> log.debug("Total length: {}", length));
     }
 
 
@@ -50,13 +50,13 @@ public class S05_Zip extends AbstractFuturesTest {
         final CompletableFuture<String> groovy = questions("groovy");
 
         // Quel type est retourné ici ???
-        CompletableFuture.allOf(java, scala, clojure, groovy);
+        final CompletableFuture<Void> allCompleted = CompletableFuture.allOf(java, scala, clojure, groovy);
 
         //allCompleted.thenApply()
 
         /**
-         *
-         * allCompleted.thenRun(() -> {
+         */
+         allCompleted.thenRun(() -> {
             try {
                 log.debug("Loaded: {}", java.get());
                 log.debug("Loaded: {}", scala.get());
@@ -65,7 +65,7 @@ public class S05_Zip extends AbstractFuturesTest {
             } catch (InterruptedException | ExecutionException e) {
                 log.error("", e);
             }
-        });*/
+        });
     }
 }
 

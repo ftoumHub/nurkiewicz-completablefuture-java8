@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * Avec java 8 l'opération flatMap s'appelle thenCompose.
- * vavr utilise bien le terme "flatMap".
+ * Vavr utilise bien le terme "flatMap".
  */
 public class S04_FlatMap_thenCompose extends AbstractFuturesTest {
 
@@ -25,9 +25,8 @@ public class S04_FlatMap_thenCompose extends AbstractFuturesTest {
      */
     @Test
     public void thenApplyIsWrongInSomeCases() {
-        javaQuestions()
-                .thenApply(doc ->
-                        findMostInterestingQuestion(doc));
+        final CompletableFuture<CompletableFuture<Question>> completableFutureCompletableFuture = javaQuestions()
+                .thenApply(this::findMostInterestingQuestion);
     }
 
     private CompletableFuture<Document> javaQuestions() {
@@ -82,7 +81,7 @@ public class S04_FlatMap_thenCompose extends AbstractFuturesTest {
     }
 
     /**
-     * Pipeline de tâches asynchrones, on peut maintenant chainer des tâches asynchrones!
+     * Pipeline de tâches asynchrones, on peut maintenant chainer des tâches asynchrones !
      */
     @Test
     public void chained() {

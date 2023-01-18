@@ -14,9 +14,9 @@ import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.Objects.nonNull;
 
 /**
- * Grâce à la classe CompletableFuture et aux lambdas
+ * Grâce à la classe CompletableFuture et aux lambdas,
  * on peut désormais écrire du code réactif non bloquant.
- *
+ * <p>
  * Mais surtout on va pouvoir le faire avec du code élégant en évitant les callbacks.
  */
 public class S02_Creating extends AbstractFuturesTest {
@@ -40,7 +40,8 @@ public class S02_Creating extends AbstractFuturesTest {
      * Ici, il n'y a pas d'executor service, le code est exécuté dans un pool de thread commun.
      * Dans cf{@link ForkJoinPool#commonPool()}
      * <p>
-     * Heureusement, on a aussi une version qui prend en paramètre un executorService {@link #supplyAsyncWithCustomExecutor}
+     * Heureusement, on a aussi une version qui prend en paramètre un executorService
+     * {@link #supplyAsyncWithCustomExecutor}
      */
     @Test
     public void supplyAsync() throws Exception {

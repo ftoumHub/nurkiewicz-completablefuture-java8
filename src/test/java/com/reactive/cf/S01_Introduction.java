@@ -19,14 +19,13 @@ public class S01_Introduction extends AbstractFuturesTest {
 
 
 	/**
-	 *
 	 * Pb, on a aucune idée de ce que fait la méthode à part retourner une String,
 	 * ce qui ne nous apprend à peu près rien.
-	 *
-	 * De bien des manières, ce code est incomplet (même si il fonctionne) car il peut se passer un certain
+	 * <p>
+	 * De bien des manières, ce code est incomplet (même s'il fonctionne) car il peut se passer un certain
 	 * nombre d'impondérables qui peuvent rendre ce code dysfonctionnel.
 	 * (Ex: stackoverflow est 'down', bug de parsing HTML...)
-	 *
+	 * <p>
 	 * En cas d'erreur réseau, le code peut tourner sans s'arrêter et donc bloquer
 	 * le thread principal de l'application.
 	 */
@@ -41,12 +40,10 @@ public class S01_Introduction extends AbstractFuturesTest {
 
 
 
-
-
 	/**
 	 * Pour éviter de bloquer le thread principal, on peut lancer un traitement
 	 * dans un autre thread et ainsi libérer le thread initial (client) pour qu'il poursuive ses traitements.
-	 *
+	 * <p>
 	 * Appel de la méthode dans un thread 'custom' cf {@link AbstractFuturesTest#execService}
 	 */
 	@Test

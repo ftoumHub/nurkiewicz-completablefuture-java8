@@ -75,8 +75,19 @@
             <artifactId>vavr</artifactId>
             <version>0.10.4</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.sorokinigor</groupId>
+            <artifactId>yet-another-try</artifactId>
+            <version>1.1.0</version>
+        </dependency>
 
         <!-- Testing -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.10</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -101,6 +112,13 @@
             <artifactId>spring-web</artifactId>
             <version>3.2.4.RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.4.14</version>
+        </dependency>
+
     </dependencies>
 
     <build>
